@@ -28,7 +28,7 @@ k_F = np.sqrt(E_F / gamma ) # 1/nm
 Delta = 0.08   #  meV
 mu = 50.6   # 623 Delta #50.6  #  meV
 # gamma = 9479 # meV (nm)²
-Lambda = 8.76 #8*Delta # meV*nm    # 8 * Delta  #0.644 meV 
+Lambda = 0 #8*Delta # meV*nm    # 8 * Delta  #0.644 meV 
 
 N_phi = 101  # 101  # it should be odd to include zero
 phi_x_values = np.linspace(-0.002 * k_F, 0.002 * k_F, N_phi)   #np.linspace(-0.003 * k_F, 0.003 * k_F, N_phi)
@@ -36,7 +36,7 @@ cut_off = 1.1*k_F # 1.1 k_F
 
 theta = -np.pi/4 #np.pi/2   # float
 
-N = 514  #514   #300
+N = 60  #514   #300
 n_cores = 16
 points = 1* n_cores
 N_polifit = 2  # 4
@@ -179,43 +179,6 @@ def integrate_B_Romberg(B):
     superfluid_density_xy = (E_0(phi_x_values[2], phi_y_values[2], B_x, B_y) - E_0(phi_x_values[2], phi_y_values[0], B_x, B_y) - E_0(phi_x_values[0], phi_y_values[2], B_x, B_y) + E_0(phi_x_values[0], phi_y_values[0], B_x, B_y))/(4*h**2)
     superfluid_density_xy_0 = (E_0(h, h, B_x, B_y) - E_0(h, -h, B_x, B_y) - E_0(-h, h, B_x, B_y) + E_0(-h, -h, B_x, B_y))/(4*h**2)
     return q_B, superfluid_density_xx, superfluid_density_xx_0, superfluid_density_yy, superfluid_density_yy_0, superfluid_density_xy, superfluid_density_xy_0
-
-# if __name__ == "__main__":
-#     B_values = np.linspace(0.8*Delta, 2*Delta, points)
-#     integrate = integrate_B
-#     B_direction = f"{theta:.2}"
-#     # integrate = integrate_B_y
-#     with multiprocessing.Pool(n_cores) as pool:
-#         superfluid_density, phi_eq, superfluid_density_0, superfluid_density_finite_differences, superfluid_density_finite_differences_0, superfluid_density_finite_differences_second_minima, phi_eq_second_minima, superfluid_density_finite_differences_third_minima, phi_eq_third_minima, superfluid_density_yy, superfluid_density_yy_0, superfluid_density_xx, superfluid_density_xx_0 = zip(*pool.map(integrate, B_values))
-#     superfluid_density = np.array(superfluid_density)
-#     superfluid_density_0 = np.array(superfluid_density_0)
-#     superfluid_density_finite_differences = np.array(superfluid_density_finite_differences)
-#     superfluid_density_finite_differences_0 = np.array(superfluid_density_finite_differences_0)
-#     superfluid_density_finite_differences_second_minima = np.array(superfluid_density_finite_differences_second_minima)
-#     superfluid_density_finite_differences_third_minima = np.array(superfluid_density_finite_differences_third_minima)
-#     superfluid_density_yy = np.array(superfluid_density_yy)
-#     superfluid_density_yy_0 = np.array(superfluid_density_yy_0)
-#     superfluid_density_xx = superfluid_density_xx
-#     superfluid_density_xx_0 = superfluid_density_xx_0 
-#     phi_eq = np.array(phi_eq)
-#     phi_eq_second_minima = np.array(phi_eq_second_minima)
-#     phi_eq_third_minima = np.array(phi_eq_third_minima)
-#     data_folder = Path("Data/")
-#     name = f"superfluid_density_B_in_{B_direction}_({np.round(np.min(B_values/Delta),3)}-{np.round(np.max(B_values/Delta),3)})_phi_x_in_({np.round(np.min(phi_x_values/k_F), 3)}-{np.round(np.max(phi_x_values/k_F),3)})_Delta={Delta}_lambda={np.round(Lambda, 2)}_points={points}_N_phi={N_phi}_N={N}_C={C}.npz"
-#     file_to_open = data_folder / name
-#     np.savez(file_to_open, superfluid_density=superfluid_density, superfluid_density_0=superfluid_density_0,
-#              superfluid_density_finite_differences= superfluid_density_finite_differences,
-#              superfluid_density_finite_differences_0=superfluid_density_finite_differences_0,
-#              superfluid_density_finite_differences_second_minima=superfluid_density_finite_differences_second_minima,
-#              superfluid_density_finite_differences_third_minima = superfluid_density_finite_differences_third_minima,
-#              superfluid_density_yy=superfluid_density_yy,
-#              superfluid_density_yy_0=superfluid_density_yy_0,
-#              phi_eq_third_minima=phi_eq_third_minima,
-#              phi_eq_second_minima = phi_eq_second_minima,
-#              superfluid_density_xx = superfluid_density_xx,
-#              superfluid_density_xx_0 = superfluid_density_xx_0,
-#              B_values=B_values, phi_eq=phi_eq, **parameters)
-#     print("\007")
 
 if __name__ == "__main__":
     B_values = np.linspace(0.8*Delta, 2*Delta, points)
